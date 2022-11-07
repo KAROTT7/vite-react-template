@@ -5,10 +5,11 @@ import router from 'vite-plugin-react-views'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), router()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src')
-    }
-  }
+	plugins: [react(), router()],
+	envDir: 'env',
+	resolve: {
+		alias: {
+			'@': path.resolve(__dirname, './src')
+		}
+	}
 })
