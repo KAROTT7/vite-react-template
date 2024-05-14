@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .pointer {
+    @apply cursor-pointer text-primary hover:underline hover:underline-offset-2 hover:text-primary/80
+  }
+
+	.all-center {
+		@apply flex items-center justify-center
+	}
+}
