@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
-import {
-	Outlet, useLocation 
-} from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useStore } from '@/contexts/store'
 import { Layout } from '@/components'
 import { HomeOutlined } from '@ant-design/icons'
