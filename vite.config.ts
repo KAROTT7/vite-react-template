@@ -1,7 +1,10 @@
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import router from 'vite-plugin-react-views'
+
+const currentFilePath = fileURLToPath(import.meta.url)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,7 +12,7 @@ export default defineConfig({
 	envDir: 'env',
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src')
+			'@': path.resolve(currentFilePath, '../src')
 		}
 	}
 })
