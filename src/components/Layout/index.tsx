@@ -77,6 +77,7 @@ export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
 						marginLeft: left,
 						width: `calc(100vw - ${left}px)`
 					}}
+					id="layout-container"
 				>
 					{children}
 				</div>

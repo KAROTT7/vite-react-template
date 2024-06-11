@@ -1,2 +1,5 @@
 export { default as Button } from './Button'
 export { default as Layout } from './Layout'
+export { default as Container } from './Container'
+export { default as RangeInput } from './RangeInput'
+export { default as TablePage } from './TablePage'
