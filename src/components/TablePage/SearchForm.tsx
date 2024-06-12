@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import cl from 'classnames'
 import { Row, Col, Form, Button } from 'antd'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import type { InputProps } from 'antd/es/input'
 import type { TextAreaProps } from 'antd/es/input'
 import type { SelectProps } from 'antd/es/select'
@@ -124,6 +125,7 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 	}
 
 	const [span, setSpan] = useState(6)
+	const [collapsed, setCollapsed] = useState(true)
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver((entries) => {
@@ -156,11 +158,24 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 		}
 	}, [])
 
+	const maxItemsPerLine = 24 / span
+	let itemLength = items.length
+	if (collapsed && itemLength + 1 > maxItemsPerLine) {
+		itemLength = maxItemsPerLine === 1 ? 1 : maxItemsPerLine - 1
+	}
+
 	return (
 		<div ref={wrapperRef} className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}>
-			<Form form={form} onFinish={onSearch} initialValues={initialValues}>
+			<Form
+				form={form}
+				onFinish={(values) => {
+					setCollapsed(true)
+					onSearch(values)
+				}}
+				initialValues={initialValues}
+			>
 				<Row gutter={[15, 15]}>
-					{items.map((o) => {
+					{items.slice(0, itemLength).map((o) => {
 						return (
 							<Col key={o.name} span={span}>
 								<Form.Item name={o.name} className="mb-0">
@@ -184,6 +199,12 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 									Clear
 								</Button>
 							</Button.Group>
+							{items.length >= maxItemsPerLine ? (
+								<Button type="link" onClick={() => setCollapsed((s) => !s)}>
+									{collapsed ? '展开' : '折叠'}
+									{collapsed ? <DownOutlined /> : <UpOutlined />}
+								</Button>
+							) : null}
 						</Form.Item>
 					</Col>
 				</Row>
