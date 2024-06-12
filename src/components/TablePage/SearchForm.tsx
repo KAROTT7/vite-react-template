@@ -130,33 +130,37 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 	const [collapsed, setCollapsed] = useState(true)
 
 	useEffect(() => {
+		const el = wrapperRef.current
 		const resizeObserver = new ResizeObserver((entries) => {
 			for (const entry of entries) {
-				const { width } = entry.contentRect
-				setSpan((prevSpan) => {
-					let nextSpan = prevSpan
+				if (entry.target === el) {
+					const { width } = entry.contentRect
 
-					if (width < 600) {
-						nextSpan = 24
-					} else if (width < 1000) {
-						nextSpan = 12
-					} else if (width < 1300) {
-						nextSpan = 8
-					} else if (width < 1700) {
-						nextSpan = 6
-					} else {
-						nextSpan = 4
-					}
+					setSpan((prevSpan) => {
+						let nextSpan = prevSpan
 
-					return nextSpan
-				})
+						if (width < 600) {
+							nextSpan = 24
+						} else if (width < 1000) {
+							nextSpan = 12
+						} else if (width < 1300) {
+							nextSpan = 8
+						} else if (width < 1700) {
+							nextSpan = 6
+						} else {
+							nextSpan = 4
+						}
+
+						return nextSpan
+					})
+				}
 			}
 		})
 
 		resizeObserver.observe(wrapperRef.current)
 
 		return () => {
-			resizeObserver.unobserve(wrapperRef.current)
+			resizeObserver.unobserve(el)
 		}
 	}, [])
 

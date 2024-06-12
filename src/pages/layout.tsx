@@ -24,6 +24,11 @@ export function Component() {
 					key: '/',
 					label: 'Home',
 					icon: <HomeOutlined />
+				},
+				{
+					key: '/template',
+					label: 'Template',
+					icon: <HomeOutlined />
 				}
 			]}
 			asideProps={{ className: 'bg-white' }}
