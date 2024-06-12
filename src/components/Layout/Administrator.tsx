@@ -5,7 +5,9 @@ export interface AdministratorProps extends DropdownProps {
 	name: string
 }
 export default function Administrator(props: AdministratorProps) {
-	const { name, ...dropdownProps } = props
+	const {
+		name, ...dropdownProps 
+	} = props
 
 	const node = (
 		<div className="flex items-center space-x-2 px-2 rounded h-10 hover:bg-[rgba(0,0,0,0.03)] cursor-pointer">

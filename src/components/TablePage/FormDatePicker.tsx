@@ -9,8 +9,8 @@ interface FormDatePickerProps {
 }
 export default function FormDatePicker(props: FormDatePickerProps & DatePickerProps) {
 	const {
- label, required, ...rest 
-} = props
+		label, required, ...rest 
+	} = props
 
 	const [focus, setFocus] = useState(false)
 

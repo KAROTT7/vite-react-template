@@ -1,5 +1,7 @@
 import { useStore } from '@/contexts/store'
-import { createContext, useCallback, useContext } from 'react'
+import {
+	createContext, useCallback, useContext 
+} from 'react'
 import locales from '@/locales'
 
 interface FormatMessageFunctionOption {
@@ -29,8 +31,8 @@ export function LocaleProvider(
 	props: React.PropsWithChildren<Partial<Omit<ContextProps, 'formatMessage'>>>
 ) {
 	const {
- children, messages, locale 
-} = props
+		children, messages, locale 
+	} = props
 	const lang = locale || useStore().lang
 	const map = messages || locales
 

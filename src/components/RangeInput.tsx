@@ -1,5 +1,9 @@
-import { useEffect, useState } from 'react'
-import { Input, Space } from 'antd'
+import {
+	useEffect, useState 
+} from 'react'
+import {
+	Input, Space 
+} from 'antd'
 import classNames from 'classnames'
 import { float4Reg } from '@/utils/reg'
 
@@ -16,8 +20,8 @@ export interface RangeInputProps {
 }
 export default function RangeInput(props: RangeInputProps) {
 	const {
- value, onChange, onFocus, onBlur 
-} = props
+		value, onChange, onFocus, onBlur 
+	} = props
 	const [min, setMin] = useState<InputType>(undefined)
 	const [max, setMax] = useState<InputType>(undefined)
 

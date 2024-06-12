@@ -11,8 +11,8 @@ interface FormRangePickerProps {
 }
 export default function FormRangePicker(props: FormRangePickerProps & RangePickerProps) {
 	const {
- label, required, ...rest 
-} = props
+		label, required, ...rest 
+	} = props
 
 	const [focus, setFocus] = useState(false)
 

@@ -9,8 +9,8 @@ interface FormRangeInputProps extends RangeInputProps {
 }
 export default function FormRangeInput(props: FormRangeInputProps) {
 	const {
- label, required, ...rest 
-} = props
+		label, required, ...rest 
+	} = props
 
 	const [focus, setFocus] = useState(false)
 

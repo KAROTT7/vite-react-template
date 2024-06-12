@@ -1,5 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {
+	useEffect, useState 
+} from 'react'
+import {
+	useLocation, useNavigate 
+} from 'react-router-dom'
 import { Menu } from 'antd'
 import cl from 'classnames'
 import type { MenuProps } from 'antd'
@@ -16,8 +20,8 @@ interface AsideProps {
 }
 export default function Aside(props: AsideProps) {
 	const {
- className, width, collapsed, toggleCollaspsed, menus, beforeNavigate 
-} = props
+		className, width, collapsed, toggleCollaspsed, menus, beforeNavigate 
+	} = props
 
 	const n = useNavigate()
 	const { pathname } = useLocation()
@@ -75,7 +79,9 @@ export default function Aside(props: AsideProps) {
 				className="h-full w-full overflow-y-scroll overflow-x-hidden select-none pt-2 px-2"
 				// inlineIndent={0}
 				onClick={(info) => {
-					const { key, keyPath } = info
+					const {
+						key, keyPath 
+					} = info
 
 					n(beforeNavigate?.(key) ?? key)
 					setSelectedKeys([key])

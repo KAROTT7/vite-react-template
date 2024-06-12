@@ -1,6 +1,8 @@
 // import { useIntl } from '@/plugins/intl'
 import { useState } from 'react'
-import { Space, Button } from 'antd'
+import {
+	Space, Button 
+} from 'antd'
 import { TablePage } from '@/components'
 // import { convertToTausendstel } from '@/utils/calc'
 // import { splitedStringToArray, arrayToSplitedString } from '@/utils/utils'
@@ -11,7 +13,9 @@ import { useSearchParams } from 'react-router-dom'
 import { SortOrder } from 'antd/es/table/interface'
 
 function getData(payload: any) {
-	const { currentPage, pageSize } = payload
+	const {
+		currentPage, pageSize 
+	} = payload
 
 	return {
 		total: 100,

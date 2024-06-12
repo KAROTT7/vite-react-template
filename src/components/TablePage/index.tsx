@@ -1,6 +1,10 @@
 import cl from 'classnames'
-import { useEffect, useMemo, useRef } from 'react'
-import { Table, Row, Col } from 'antd'
+import {
+	useEffect, useMemo, useRef 
+} from 'react'
+import {
+	Table, Row, Col 
+} from 'antd'
 import SearchForm from './SearchForm'
 import type {
 	FormElement,
@@ -8,7 +12,9 @@ import type {
 	ConvertInFunction,
 	ConvertOutFunction
 } from './SearchForm'
-import type { ColumnType, TableProps } from 'antd/es/table'
+import type {
+	ColumnType, TableProps 
+} from 'antd/es/table'
 import getElement from './getElement'
 import { useSearchParams } from 'react-router-dom'
 import { isVoid } from '@/utils/misc'
@@ -173,8 +179,8 @@ export default function TablePage<T = unknown>(props: React.PropsWithChildren<Ta
 	}, [tableData])
 
 	const {
- tableColumns, formItems, formDefaultValues, convertsMap 
-} = useMemo(() => {
+		tableColumns, formItems, formDefaultValues, convertsMap 
+	} = useMemo(() => {
 		const tableColumns: TableColumn<T>[] = []
 		let formItems: BasicFormElementWithElement[] = []
 		const formDefaultValues: Record<string, any> = {}
@@ -267,7 +273,9 @@ export default function TablePage<T = unknown>(props: React.PropsWithChildren<Ta
 					dataSource={tableData.list}
 					columns={tableColumns}
 					onChange={(pagination, _, sorter, { action }) => {
-						const { current, pageSize } = pagination
+						const {
+							current, pageSize 
+						} = pagination
 
 						userActionRef.current = action
 

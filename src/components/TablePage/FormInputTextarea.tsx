@@ -9,8 +9,8 @@ interface FormInputTextareaProps extends TextAreaProps {
 }
 export default function FormInputTextarea(props: FormInputTextareaProps) {
 	const {
- label, required, ...rest 
-} = props
+		label, required, ...rest 
+	} = props
 
 	const [focus, setFocus] = useState(false)
 

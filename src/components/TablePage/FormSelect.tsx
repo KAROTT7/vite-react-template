@@ -9,8 +9,8 @@ interface FormSelectProps extends SelectProps {
 }
 export default function FormSelect(props: React.PropsWithChildren<FormSelectProps>) {
 	const {
- label, children, required, ...rest 
-} = props
+		label, children, required, ...rest 
+	} = props
 
 	const [focus, setFocus] = useState(false)
 

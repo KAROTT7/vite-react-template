@@ -22,8 +22,8 @@ export default function getElement(
 	const formItemProps = column.search!
 
 	const {
- type, name, label, order = index 
-} = formItemProps
+		type, name, label, order = index 
+	} = formItemProps
 
 	let convertIn: ConvertInFunction, convertOut: ConvertOutFunction
 

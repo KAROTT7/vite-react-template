@@ -4,11 +4,7 @@ module.exports = {
 		es2021: true,
 		node: true
 	},
-	settings: {
-		react: {
-			version: 'detect'
-		}
-	},
+	settings: { react: { version: 'detect' } },
 	extends: [
 		'eslint:recommended',
 		'plugin:react/recommended',
@@ -17,9 +13,7 @@ module.exports = {
 	overrides: [],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaFeatures: {
-			jsx: true
-		},
+		ecmaFeatures: { jsx: true },
 		ecmaVersion: 'latest',
 		sourceType: 'module'
 	},
@@ -37,20 +31,13 @@ module.exports = {
 		'object-curly-newline': [
 			1,
 			{
-				ObjectExpression: {
-					multiline: true,
-					minProperties: 3
-				},
-				ObjectPattern: {
-					multiline: true,
-					minProperties: 3
-				},
-				ImportDeclaration: {
-					multiline: true,
-					minProperties: 5
-				}
+				multiline: true,
+				minProperties: 2,
+				consistent: false
 			}
 		],
-		'object-curly-spacing': [1, 'always']
+		'object-curly-spacing': [1, 'always'],
+		indent: [1, 'tab'],
+		'object-property-newline': 1
 	}
 }

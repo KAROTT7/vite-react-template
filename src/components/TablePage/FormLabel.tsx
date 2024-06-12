@@ -4,8 +4,8 @@ interface FormLabelProps {
 }
 export default function FormLabel(props: React.PropsWithChildren<FormLabelProps>) {
 	const {
- children, focus, required 
-} = props
+		children, focus, required 
+	} = props
 
 	return (
 		<span

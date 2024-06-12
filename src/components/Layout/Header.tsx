@@ -1,4 +1,6 @@
-import React, { useMemo, isValidElement } from 'react'
+import React, {
+	useMemo, isValidElement 
+} from 'react'
 import cl from 'classnames'
 import Administrator from './Administrator'
 import type { AdministratorProps } from './Administrator'
@@ -14,8 +16,8 @@ export interface HeaderProps {
 }
 export default function Header(props: HeaderProps) {
 	const {
- className, logo, administrator, action 
-} = props
+		className, logo, administrator, action 
+	} = props
 
 	const logoNode = useMemo(() => {
 		if (isValidElement(logo)) {

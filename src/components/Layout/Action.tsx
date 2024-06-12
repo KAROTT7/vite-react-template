@@ -5,7 +5,9 @@ export interface ActionProps extends DropdownProps {
 	icon: string | React.ReactElement
 }
 export default function Action(props: ActionProps) {
-	const { icon, ...dropdownProps } = props
+	const {
+		icon, ...dropdownProps 
+	} = props
 
 	const node = (
 		<div className="w-10 h-10 all-center rounded hover:bg-[rgba(0,0,0,0.03)] cursor-pointer relative">

@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState, isValidElement } from 'react'
+import {
+	useEffect, useMemo, useState, isValidElement 
+} from 'react'
 import Aside from './Aside'
 import { MenuItem } from './Aside'
 import Header from './Header'
@@ -19,8 +21,8 @@ export interface LayoutProps {
 }
 export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
 	const {
- header, children, menus, asideProps = {}, onAfterCollapsed 
-} = props
+		header, children, menus, asideProps = {}, onAfterCollapsed 
+	} = props
 
 	const [config, setConfig] = useState(() => {
 		return { collapsed: !!localStorage.getItem(ASIDE_COLLAPSED) }
