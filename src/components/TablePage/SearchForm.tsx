@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import cl from 'classnames'
 import { Row, Col, Form, Button } from 'antd'
 import type { InputProps } from 'antd/es/input'
@@ -110,6 +111,7 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 	const { className, items, onSearch, initialValues, defaultValues = {} } = props
 
 	const [form] = Form.useForm()
+	const wrapperRef = useRef<HTMLDivElement>()
 
 	function resetFields() {
 		// form.resetFields() 无效，故使用以下方式重置
@@ -121,20 +123,53 @@ export default function SearchForm<T = any>(props: SearchFormProps<T>) {
 		form.setFieldsValue(resetValues)
 	}
 
+	const [span, setSpan] = useState(6)
+
+	useEffect(() => {
+		const resizeObserver = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				const { width } = entry.contentRect
+				setSpan((prevSpan) => {
+					let nextSpan = prevSpan
+
+					if (width < 600) {
+						nextSpan = 24
+					} else if (width < 1000) {
+						nextSpan = 12
+					} else if (width < 1300) {
+						nextSpan = 8
+					} else if (width < 1700) {
+						nextSpan = 6
+					} else {
+						nextSpan = 4
+					}
+
+					return nextSpan
+				})
+			}
+		})
+
+		resizeObserver.observe(wrapperRef.current)
+
+		return () => {
+			resizeObserver.unobserve(wrapperRef.current)
+		}
+	}, [])
+
 	return (
-		<div className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}>
+		<div ref={wrapperRef} className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}>
 			<Form form={form} onFinish={onSearch} initialValues={initialValues}>
 				<Row gutter={[15, 15]}>
 					{items.map((o) => {
 						return (
-							<Col key={o.name} span={8}>
+							<Col key={o.name} span={span}>
 								<Form.Item name={o.name} className="mb-0">
 									{o.element}
 								</Form.Item>
 							</Col>
 						)
 					})}
-					<Col span={8}>
+					<Col span={span}>
 						<Form.Item className="mb-0">
 							<Button.Group>
 								<Button type="primary" htmlType="submit">
