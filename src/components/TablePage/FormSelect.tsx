@@ -8,7 +8,9 @@ interface FormSelectProps extends SelectProps {
 	required?: boolean
 }
 export default function FormSelect(props: React.PropsWithChildren<FormSelectProps>) {
-	const { label, children, required, ...rest } = props
+	const {
+ label, children, required, ...rest 
+} = props
 
 	const [focus, setFocus] = useState(false)
 

@@ -3,7 +3,9 @@ interface FormLabelProps {
 	required?: boolean
 }
 export default function FormLabel(props: React.PropsWithChildren<FormLabelProps>) {
-	const { children, focus, required } = props
+	const {
+ children, focus, required 
+} = props
 
 	return (
 		<span

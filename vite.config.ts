@@ -10,11 +10,7 @@ const currentFilePath = fileURLToPath(import.meta.url)
 export default defineConfig({
 	plugins: [react(), router()],
 	envDir: 'env',
-	resolve: {
-		alias: {
-			'@': path.resolve(currentFilePath, '../src')
-		}
-	},
+	resolve: { alias: { '@': path.resolve(currentFilePath, '../src') } },
 	build: {
 		rollupOptions: {
 			output: {

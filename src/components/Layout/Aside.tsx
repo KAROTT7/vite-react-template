@@ -15,7 +15,9 @@ interface AsideProps {
 	beforeNavigate?: (path: string) => string
 }
 export default function Aside(props: AsideProps) {
-	const { className, width, collapsed, toggleCollaspsed, menus, beforeNavigate } = props
+	const {
+ className, width, collapsed, toggleCollaspsed, menus, beforeNavigate 
+} = props
 
 	const n = useNavigate()
 	const { pathname } = useLocation()

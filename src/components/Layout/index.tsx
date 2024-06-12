@@ -18,12 +18,12 @@ export interface LayoutProps {
 	onAfterCollapsed?(collapsed: boolean): void
 }
 export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
-	const { header, children, menus, asideProps = {}, onAfterCollapsed } = props
+	const {
+ header, children, menus, asideProps = {}, onAfterCollapsed 
+} = props
 
 	const [config, setConfig] = useState(() => {
-		return {
-			collapsed: !!localStorage.getItem(ASIDE_COLLAPSED)
-		}
+		return { collapsed: !!localStorage.getItem(ASIDE_COLLAPSED) }
 	})
 
 	useEffect(() => {
@@ -49,12 +49,7 @@ export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
 	const left = config.collapsed ? 72 : 240
 
 	return (
-		<div
-			className="h-screen grid"
-			style={{
-				gridTemplateRows: `auto 1fr`
-			}}
-		>
+		<div className="h-screen grid" style={{ gridTemplateRows: `auto 1fr` }}>
 			<div>{headerNode}</div>
 
 			<div className="relative overflow-x-hidden">

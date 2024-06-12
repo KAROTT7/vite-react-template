@@ -8,7 +8,9 @@ interface FormInputProps extends InputProps {
 	required?: boolean
 }
 export default function FormInput(props: FormInputProps) {
-	const { label, required, ...rest } = props
+	const {
+ label, required, ...rest 
+} = props
 
 	const [focus, setFocus] = useState(false)
 

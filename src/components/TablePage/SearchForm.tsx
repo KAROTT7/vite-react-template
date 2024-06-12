@@ -109,7 +109,9 @@ interface SearchFormProps<T> {
 	defaultValues?: Record<string, any>
 }
 export default function SearchForm<T = any>(props: SearchFormProps<T>) {
-	const { className, items, onSearch, initialValues, defaultValues = {} } = props
+	const {
+ className, items, onSearch, initialValues, defaultValues = {} 
+} = props
 
 	const [form] = Form.useForm()
 	const wrapperRef = useRef<HTMLDivElement>()

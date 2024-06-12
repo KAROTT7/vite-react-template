@@ -19,10 +19,14 @@ export function Component() {
 				administrator: user?.name || 'admin',
 				logo: '/vite.svg'
 			}}
-			menus={[{ key: '/', label: 'Home', icon: <HomeOutlined /> }]}
-			asideProps={{
-				className: 'bg-white'
-			}}
+			menus={[
+				{
+					key: '/',
+					label: 'Home',
+					icon: <HomeOutlined />
+				}
+			]}
+			asideProps={{ className: 'bg-white' }}
 		>
 			{/* {user?.name} */}
 			<Outlet />

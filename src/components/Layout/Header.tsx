@@ -13,7 +13,9 @@ export interface HeaderProps {
 	action?: ActionProps | ActionProps[]
 }
 export default function Header(props: HeaderProps) {
-	const { className, logo, administrator, action } = props
+	const {
+ className, logo, administrator, action 
+} = props
 
 	const logoNode = useMemo(() => {
 		if (isValidElement(logo)) {
@@ -27,9 +29,7 @@ export default function Header(props: HeaderProps) {
 
 	const administratorProps = useMemo(() => {
 		if (typeof administrator === 'string') {
-			return {
-				name: administrator
-			}
+			return { name: administrator }
 		}
 
 		return administrator

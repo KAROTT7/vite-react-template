@@ -21,9 +21,7 @@ if (import.meta.env.DEV) {
 export function StoreConfig(props: React.PropsWithChildren) {
 	const { children } = props
 
-	const [state, setState] = useState<State>({
-		user: undefined
-	})
+	const [state, setState] = useState<State>({ user: undefined })
 
 	return (
 		<StoreContext.Provider

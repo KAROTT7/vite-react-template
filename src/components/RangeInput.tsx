@@ -15,7 +15,9 @@ export interface RangeInputProps {
 	onBlur?: () => void
 }
 export default function RangeInput(props: RangeInputProps) {
-	const { value, onChange, onFocus, onBlur } = props
+	const {
+ value, onChange, onFocus, onBlur 
+} = props
 	const [min, setMin] = useState<InputType>(undefined)
 	const [max, setMax] = useState<InputType>(undefined)
 

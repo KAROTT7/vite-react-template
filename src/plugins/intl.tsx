@@ -28,7 +28,9 @@ if (import.meta.env.DEV) {
 export function LocaleProvider(
 	props: React.PropsWithChildren<Partial<Omit<ContextProps, 'formatMessage'>>>
 ) {
-	const { children, messages, locale } = props
+	const {
+ children, messages, locale 
+} = props
 	const lang = locale || useStore().lang
 	const map = messages || locales
 

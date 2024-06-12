@@ -29,6 +29,28 @@ module.exports = {
 		'react/react-in-jsx-scope': 0,
 		'no-console': 2,
 		'@typescript-eslint/no-non-null-assertion': 0,
-		'@typescript-eslint/no-explicit-any': 0
+		'@typescript-eslint/no-explicit-any': 0,
+		'react/jsx-max-props-per-line': [1, { when: 'multiline' }],
+		'react/jsx-indent-props': [2, 'tab'],
+		'react/jsx-closing-bracket-location': [1, 'line-aligned'],
+		'react/jsx-first-prop-new-line': 1,
+		'object-curly-newline': [
+			1,
+			{
+				ObjectExpression: {
+					multiline: true,
+					minProperties: 3
+				},
+				ObjectPattern: {
+					multiline: true,
+					minProperties: 3
+				},
+				ImportDeclaration: {
+					multiline: true,
+					minProperties: 5
+				}
+			}
+		],
+		'object-curly-spacing': [1, 'always']
 	}
 }

@@ -102,9 +102,7 @@ export function Component() {
 				// 排序
 				// order: 1,
 				// 传给组件的属性
-				elementProps: {
-					mode: 'multiple'
-				}
+				elementProps: { mode: 'multiple' }
 			}
 		},
 		{

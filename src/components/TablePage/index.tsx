@@ -172,7 +172,9 @@ export default function TablePage<T = unknown>(props: React.PropsWithChildren<Ta
 		}
 	}, [tableData])
 
-	const { tableColumns, formItems, formDefaultValues, convertsMap } = useMemo(() => {
+	const {
+ tableColumns, formItems, formDefaultValues, convertsMap 
+} = useMemo(() => {
 		const tableColumns: TableColumn<T>[] = []
 		let formItems: BasicFormElementWithElement[] = []
 		const formDefaultValues: Record<string, any> = {}
@@ -247,9 +249,7 @@ export default function TablePage<T = unknown>(props: React.PropsWithChildren<Ta
 								...next,
 								...DEFAULT_PAGE_INFO
 							},
-							{
-								replace: true
-							}
+							{ replace: true }
 						)
 					}}
 				/>
