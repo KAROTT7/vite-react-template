@@ -1,0 +1,78 @@
+/* 移除 ant menu 默认背景色 */
+.aside .ant-menu {
+	background: transparent !important;
+}
+
+/* ant icon 大小更改 */
+.aside .ant-menu .anticon {
+	font-size: 22px !important;
+}
+
+/* 设置一级菜单缩进 */
+.aside .ant-menu-item:has(.anticon),
+.aside .ant-menu-submenu > .ant-menu-submenu-title:has(.anticon) {
+	padding-left: 10px !important;
+}
+
+.aside .ant-menu-inline-collapsed .anticon {
+	height: 100%;
+}
+.aside .ant-menu-inline-collapsed .ant-menu-item,
+.aside .ant-menu-inline-collapsed .ant-menu-submenu-title {
+	padding-left: 10px !important;
+}
+
+/* 设置子级菜单缩进 */
+.aside .ant-menu-item,
+.aside .ant-menu-submenu > .ant-menu-submenu-title {
+	padding-left: 40px !important;
+}
+
+.aside .ant-menu-item {
+	color: #6d6d6d !important;
+}
+
+.aside .ant-menu-item.ant-menu-item-selected {
+	background-color: #e9e9e9 !important;
+	color: #212121 !important;
+}
+
+.aside .ant-menu-submenu .ant-menu-title-content,
+.aside .ant-menu-submenu .anticon,
+.aside .ant-menu-submenu .ant-menu-submenu-arrow {
+	color: #6d6d6d !important;
+}
+
+.aside .ant-menu-submenu-selected .ant-menu-item-selected .ant-menu-title-content,
+.aside .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-title-content,
+.aside .ant-menu-submenu-selected .anticon,
+.aside .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+	color: #212121 !important;
+}
+
+#aside-popup .ant-menu-item {
+	color: #6d6d6d !important;
+}
+
+#aside-popup .ant-menu-submenu .ant-menu-title-content,
+#aside-popup .ant-menu-submenu .anticon,
+#aside-popup .ant-menu-submenu .ant-menu-submenu-arrow {
+	color: #6d6d6d !important;
+}
+
+#aside-popup .ant-menu-item.ant-menu-item-selected,
+#aside-popup .ant-menu-item.ant-menu-item-selected > .ant-menu-title-content {
+	background-color: #e9e9e9 !important;
+	color: #212121 !important;
+}
+
+#aside-popup .ant-menu-submenu-selected .ant-menu-item-selected .ant-menu-title-content,
+#aside-popup .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-title-content,
+#aside-popup .ant-menu-submenu-selected .anticon,
+#aside-popup .ant-menu-submenu-selected > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+	color: #212121 !important;
+}
+
+.skypay-main {
+	scrollbar-width: thin;
+}
