@@ -6,21 +6,22 @@ import type { RangePickerProps } from 'antd/es/date-picker'
 const { RangePicker } = DatePicker
 
 interface FormRangePickerProps {
-	label: string
+	label?: string
 	required?: boolean
 }
 export default function FormRangePicker(props: FormRangePickerProps & RangePickerProps) {
-	const {
-		label, required, ...rest 
-	} = props
+	const { label, required, ...rest } = props
 
 	const [focus, setFocus] = useState(false)
 
 	return (
 		<div className="relative">
-			<FormLabel focus={focus} required={required}>
-				{label}
-			</FormLabel>
+			{label && (
+				<FormLabel focus={focus} required={required}>
+					{label}
+				</FormLabel>
+			)}
+
 			<RangePicker
 				className="w-full"
 				{...rest}

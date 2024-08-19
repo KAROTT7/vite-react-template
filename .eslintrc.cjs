@@ -24,20 +24,6 @@ module.exports = {
 		'no-console': 2,
 		'@typescript-eslint/no-non-null-assertion': 0,
 		'@typescript-eslint/no-explicit-any': 0,
-		'react/jsx-max-props-per-line': [1, { when: 'multiline' }],
-		'react/jsx-indent-props': [2, 'tab'],
-		'react/jsx-closing-bracket-location': [1, 'line-aligned'],
-		'react/jsx-first-prop-new-line': 1,
-		'object-curly-newline': [
-			1,
-			{
-				multiline: true,
-				minProperties: 2,
-				consistent: false
-			}
-		],
-		'object-curly-spacing': [1, 'always'],
-		indent: [1, 'tab'],
-		'object-property-newline': 1
+		'no-mixed-spaces-and-tabs': 0
 	}
 }

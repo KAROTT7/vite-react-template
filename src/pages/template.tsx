@@ -1,21 +1,16 @@
 // import { useIntl } from '@/plugins/intl'
 import { useState } from 'react'
-import {
-	Space, Button 
-} from 'antd'
-import { TablePage } from '@/components'
+import { Space, Button } from 'antd'
 // import { convertToTausendstel } from '@/utils/calc'
 // import { splitedStringToArray, arrayToSplitedString } from '@/utils/utils'
 // import { convertToLocale, composeRangeTime, decomposeRangeTime } from '@/utils/time'
 // import { useAxios } from "@/utils/hooks"
-import type { TableColumn } from '@/components/TablePage'
+import TablePage, { type TableColumn } from '@/libs/TablePage'
 import { useSearchParams } from 'react-router-dom'
 import { SortOrder } from 'antd/es/table/interface'
 
 function getData(payload: any) {
-	const {
-		currentPage, pageSize 
-	} = payload
+	const { currentPage, pageSize } = payload
 
 	return {
 		total: 100,
@@ -30,7 +25,7 @@ function getData(payload: any) {
 			}
 		}),
 		pageSize,
-		currentPage
+		current: currentPage
 	}
 }
 
@@ -48,7 +43,7 @@ export function Component() {
 
 	const [tableData, setTableData] = useState({
 		total: 0,
-		currentPage: 1,
+		current: 1,
 		pageSize: 10,
 		list: []
 	})
@@ -143,8 +138,7 @@ export function Component() {
 			}}
 			tableData={tableData}
 			columns={columns}
-			container={document.getElementById('layout-container')}
-			onSearchParamsChange={(payload) => {
+			onChange={(payload) => {
 				setTableData(getData(payload))
 			}}
 		/>

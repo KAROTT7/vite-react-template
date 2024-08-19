@@ -4,21 +4,21 @@ import FormLabel from './FormLabel'
 import type { InputProps } from 'antd/es/input'
 
 interface FormInputProps extends InputProps {
-	label: string
+	label?: string
 	required?: boolean
 }
 export default function FormInput(props: FormInputProps) {
-	const {
-		label, required, ...rest 
-	} = props
+	const { label, required, ...rest } = props
 
 	const [focus, setFocus] = useState(false)
 
 	return (
 		<div className="relative">
-			<FormLabel focus={focus} required={required}>
-				{label}
-			</FormLabel>
+			{label && (
+				<FormLabel focus={focus} required={required}>
+					{label}
+				</FormLabel>
+			)}
 			<Input {...rest} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
 		</div>
 	)
