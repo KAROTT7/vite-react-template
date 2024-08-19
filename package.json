@@ -43,7 +43,7 @@
 		"tailwindcss": "^3.4.3",
 		"typescript": "^5.3.3",
 		"vite": "^5.2.11",
-		"vite-plugin-react-views": "^2.0.3"
+		"vite-plugin-react-views": "^2.1.1"
 	},
 	"lint-staged": {
 		"*": "prettier --write --ignore-unknown",
