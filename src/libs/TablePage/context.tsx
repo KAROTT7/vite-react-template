@@ -1,14 +1,6 @@
-import type { FormInstance, FormProps, TableProps } from 'antd'
 import { createContext, useContext } from 'react'
-
-export interface FormConfig
-	extends Omit<FormProps, 'onFinish' | 'initialValues' | 'form' | 'onValuesChange'> {
-	onValuesChange?(
-		changed: Record<string, any>,
-		allChangedValues: Record<string, any>,
-		form: FormInstance
-	): void
-}
+import type { TableProps } from 'antd'
+import type { AntdFormProps } from './SearchForm'
 
 export interface TableKeysMap {
 	list?: string
@@ -18,7 +10,7 @@ export interface TableKeysMap {
 }
 
 export interface TableContextValue {
-	formConfig?: FormConfig
+	formConfig?: AntdFormProps
 	tableConfig?: Omit<TableProps<any>, 'dataSource' | 'columns' | 'onChange' | 'scroll'>
 	tableDataMap?: TableKeysMap
 	/** 查询文本 */
@@ -45,6 +37,8 @@ export interface TableContextValue {
 	getContainer?: () => HTMLElement | null
 	/** 使用启用查询项折叠展开功能 */
 	enableFormCollapse?: boolean
+	/** 是否隐藏 form 查询/重置按钮 */
+	hiddenFormButtons?: boolean
 }
 
 const TableContext = createContext<TableContextValue | undefined>(null!)
@@ -73,8 +67,11 @@ export function useTablePageConfig() {
 		labelPlacement: 'absolute',
 		rowGutter: [15, 15],
 		utc: true,
+		hiddenFormButtons: false,
 		...rest,
-		formConfig,
+		formConfig: {
+			...formConfig
+		},
 		tableConfig: {
 			bordered: true,
 			rowKey: 'id',

@@ -7,9 +7,8 @@ interface FormSelectProps extends SelectProps {
 	label?: string
 	required?: boolean
 }
-export default function FormSelect(props: React.PropsWithChildren<FormSelectProps>) {
-	const { label, children, required, ...rest } = props
-
+export default function FormSelect(props: FormSelectProps) {
+	const { label, required, ...rest } = props
 	const [focus, setFocus] = useState(false)
 
 	return (
@@ -19,9 +18,7 @@ export default function FormSelect(props: React.PropsWithChildren<FormSelectProp
 					{label}
 				</FormLabel>
 			)}
-			<Select {...rest} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}>
-				{children}
-			</Select>
+			<Select {...rest} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
 		</div>
 	)
 }

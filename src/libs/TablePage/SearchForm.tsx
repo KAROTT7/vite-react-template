@@ -3,6 +3,7 @@ import cl from 'classnames'
 import { Row, Col, Form, Button } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import type { InputProps, TextAreaProps } from 'antd/es/input'
+import type { FormProps, FormInstance } from 'antd/es/form'
 import type { SelectProps } from 'antd/es/select'
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
 import {
@@ -13,7 +14,7 @@ import {
 } from './getElement'
 import { useSearchParams } from 'react-router-dom'
 import { useTablePageConfig } from './context'
-import { type RangeInputProps } from './FormRangeInput'
+import { type RangeInputProps } from '@/components/RangeInput'
 
 export interface OptionItem {
 	label: string
@@ -108,16 +109,39 @@ export type NormalizedItem = FormElement & {
 	elementProps: any
 }
 
+export interface FormConfig {
+	onValuesChange?(
+		changed: Record<string, any>,
+		changedValues: Record<string, any>,
+		form: FormInstance
+	): void
+}
+
+export type AntdFormProps = Omit<
+	FormProps,
+	'onFinish' | 'form' | 'initialValues' | 'onValuesChange' | 'labelCol' | 'wrapperCol'
+> & {
+	onValuesChange?(
+		changed: Record<string, any>,
+		changedValues: Record<string, any>,
+		form: FormInstance
+	): void
+}
+
 interface SearchFormProps<T> {
 	className?: string
 	searchs: NormalizedItem[]
 	onSearch(values?: T): void
+	formProps: AntdFormProps
+	collapsed: boolean
+	setCollapsed(v: boolean | ((prev: boolean) => boolean)): void
 }
 
 const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
-	const { className, searchs, onSearch } = props
+	const { className, searchs, onSearch, formProps, collapsed, setCollapsed } = props
 
-	const { formConfig, enableFormCollapse, ...globalConfig } = useTablePageConfig()
+	const { formConfig, enableFormCollapse, hiddenFormButtons, ...globalConfig } =
+		useTablePageConfig()
 	const [form] = Form.useForm()
 	const wrapperRef = useRef<HTMLDivElement>(null)
 	const [searchParams] = useSearchParams()
@@ -133,10 +157,7 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 	useImperativeHandle(
 		ref,
 		() => {
-			return {
-				formToQueryObject,
-				formWrapper: wrapperRef.current
-			}
+			return { formToQueryObject, formWrapper: wrapperRef.current }
 		},
 		[formToQueryObject]
 	)
@@ -168,7 +189,6 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 	}
 
 	const [span, setSpan] = useState(6)
-	const [collapsed, setCollapsed] = useState(false)
 
 	useEffect(() => {
 		const el = wrapperRef.current
@@ -224,6 +244,7 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 		<div ref={wrapperRef} className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}>
 			<Form
 				{...formConfig}
+				{...formProps}
 				form={form}
 				onFinish={(values) => {
 					if (globalConfig.collapsedAfterSearch) {
@@ -236,6 +257,7 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 				onValuesChange={(_, changedValues) => {
 					setChangedValues(changedValues)
 
+					formProps?.onValuesChange?.(_, changedValues, form)
 					formConfig?.onValuesChange?.(_, changedValues, form)
 				}}
 			>
@@ -253,29 +275,31 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 							</Col>
 						)
 					})}
-					<Col span={span}>
-						<Form.Item className="mb-0">
-							<Button.Group>
-								<Button type="primary" htmlType="submit">
-									{globalConfig.searchText}
-								</Button>
-								<Button
-									onClick={() => {
-										resetFields()
-										onSearch()
-									}}
-								>
-									{globalConfig.clearText}
-								</Button>
-							</Button.Group>
-							{finalItems.length >= maxItemsPerLine && enableFormCollapse ? (
-								<Button type="link" onClick={() => setCollapsed((s) => !s)}>
-									{collapsed ? globalConfig.expandText : globalConfig.closeText}
-									{collapsed ? <DownOutlined /> : <UpOutlined />}
-								</Button>
-							) : null}
-						</Form.Item>
-					</Col>
+					{hiddenFormButtons ? null : (
+						<Col span={span}>
+							<Form.Item className="mb-0">
+								<Button.Group>
+									<Button type="primary" htmlType="submit">
+										{globalConfig.searchText}
+									</Button>
+									<Button
+										onClick={() => {
+											resetFields()
+											onSearch()
+										}}
+									>
+										{globalConfig.clearText}
+									</Button>
+								</Button.Group>
+								{finalItems.length >= maxItemsPerLine && enableFormCollapse ? (
+									<Button type="link" onClick={() => setCollapsed((s) => !s)}>
+										{collapsed ? globalConfig.expandText : globalConfig.closeText}
+										{collapsed ? <DownOutlined /> : <UpOutlined />}
+									</Button>
+								) : null}
+							</Form.Item>
+						</Col>
+					)}
 				</Row>
 			</Form>
 		</div>
@@ -290,7 +314,7 @@ function getInitialValues(
 	queryKeyByFormKey: any,
 	defaultValues: Record<string, any>
 ) {
-	const result: Record<string, any> = {}
+	const result = {}
 	const query = copyFromSearchParams(searchParams)
 
 	for (const key in query) {
@@ -324,8 +348,4 @@ function getInitialValues(
 		...defaultValues,
 		...result
 	}
-}
-
-if (import.meta.env.DEV) {
-	SearchForm.displayName = 'SearchForm'
 }

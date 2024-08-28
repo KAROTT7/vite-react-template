@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Table, Row, Col } from 'antd'
 import cl from 'classnames'
-import SearchForm, { type FormElement, type NormalizedItem } from './SearchForm'
+import SearchForm, { AntdFormProps, type FormElement, type NormalizedItem } from './SearchForm'
 import type { ColumnType, TableProps } from 'antd/es/table'
 import { useLocation, useSearchParams } from 'react-router-dom'
 import { copyFromSearchParams, type FormToQueryObject } from './getElement'
@@ -49,6 +49,8 @@ interface TablePageData<T = any> {
 	total: number
 }
 
+type TableAction = 'paginate' | 'filter' | 'sort' | 'search'
+
 function normalizeData(data: Partial<TablePageData> = {}, map: TableKeysMap = {}): TablePageData {
 	return {
 		current: data[map.current || 'current'] || 1,
@@ -74,17 +76,19 @@ interface TablePageProps<T> {
 	/** 表格数据 */
 	tableData?: TablePageData<T>
 	/** table props - 参考 antd table */
-	tableProps?: Omit<TableProps<T>, 'columns' | 'dataSource'>
+	tableProps?: Omit<TableProps<T>, 'columns' | 'dataSource' | 'scroll' | 'onScroll' | 'onChange'>
 	/** 总结栏 */
 	summary?: Summary | React.ReactElement
 	/** 不变的 query 参数 */
 	permanentQuery?: Record<string, string | string[]>
 	/** 查询参数变更 */
-	onChange?(v: Record<string, string | number>): void
+	onChange?(v: Record<string, string | number>, action: TableAction): void
 	/** 当分页变化时滚动到指定高度 */
 	scrollToTop?: boolean | ((tableElement: HTMLDivElement) => number)
 	/** 组件距离滚动容器顶部的高度 */
 	offsetTop?: number
+	/** Antd Form 属性 */
+	formProps?: AntdFormProps
 }
 export default function TablePage<T = any>(props: React.PropsWithChildren<TablePageProps<T>>) {
 	const {
@@ -98,7 +102,8 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 		permanentQuery = {},
 		onChange,
 		scrollToTop = true,
-		offsetTop = 0
+		offsetTop = 0,
+		formProps = {}
 	} = props
 
 	const { tableConfig, tableDataMap, getContainer = () => document.body } = useTablePageConfig()
@@ -112,7 +117,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 
 	const data = normalizeData(tableData, tableDataMap)
 	const tableElementRef = useRef<HTMLDivElement>(null)
-	const actionRef = useRef<'paginate' | 'filter' | 'sort' | 'search'>()
+	const actionRef = useRef<TableAction>('search')
 
 	function getChangedParameters(
 		searchParams: URLSearchParams,
@@ -139,7 +144,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 	useEffect(() => {
 		const result = getChangedParameters(searchParams)
 
-		onChange?.(result)
+		onChange?.(result, actionRef.current)
 	}, [searchParams, location])
 
 	useEffect(() => {
@@ -207,15 +212,23 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 
 	const searchRef = useRef<SearchFormInstance>(null)
 
-	const tableY = useScrollY(infiniteScroll, offsetTop)
+	/**
+	 * 用于控制 form 查询表单是否折叠
+	 * 放在此处是方便设置 table 高度
+	 */
+	const [collapsed, setCollapsed] = useState(false)
+	const tableY = useScrollY(infiniteScroll, collapsed)
 
 	return (
-		<div className={cl(className)}>
+		<div className={cl(className)} id="table-page">
 			{formItems.length ? (
 				<SearchForm
 					ref={searchRef}
 					className={searchWrapperClass}
 					searchs={formItems}
+					formProps={formProps}
+					collapsed={collapsed}
+					setCollapsed={setCollapsed}
 					onSearch={(values = {}) => {
 						const next = filter(values)
 
@@ -246,6 +259,13 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 							},
 							{ replace: true }
 						)
+
+						if (infiniteScroll) {
+							const scrollContainer = tableElementRef.current?.querySelector(
+								'.ant-table-tbody-virtual-holder'
+							)
+							scrollContainer?.scrollTo(0, 0)
+						}
 					}}
 				/>
 			) : null}
@@ -272,18 +292,20 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 					onScroll={(e) => {
 						if (infiniteScroll) {
 							const el = e.target as HTMLElement
-
 							const restCount = data.total % data.pageSize
 							const totalPages = (data.total - restCount) / data.pageSize + (restCount > 0 ? 1 : 0)
 							const hasNextPage = data.current < totalPages
-
-							if (el.scrollHeight - el.scrollTop - el.clientHeight < 100 && hasNextPage) {
+							if (
+								el.scrollHeight - el.scrollTop - el.clientHeight < 100 &&
+								hasNextPage &&
+								!tableProps.loading
+							) {
 								actionRef.current = 'paginate'
 								const result = getChangedParameters(searchParams, {
 									currentPage: String(data.current + 1)
 								})
 
-								onChange?.(result)
+								onChange?.(result, actionRef.current)
 							}
 						}
 					}}
@@ -349,31 +371,32 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 	)
 }
 
-function useScrollY(infiniteScroll: boolean, offsetTop: number) {
+function useScrollY(infiniteScroll: boolean, collapsed: boolean) {
 	const location = useLocation()
 	const [tableY, setTableY] = useState<number>()
 
 	useEffect(() => {
 		if (infiniteScroll) {
-			const tableContainer = document.getElementById('tableWrapper')
-			const paddingHeight =
-				Number.parseInt(window.getComputedStyle(tableContainer!).paddingBottom) * 2
-			const top = window.innerHeight - getElementOffsetTopToWindow(tableContainer)
+			setTimeout(() => {
+				const tableContainer = document.getElementById('tableWrapper')
 
-			setTableY(top - paddingHeight - offsetTop)
+				// antd table 初始化时或者没数据时，挂载的是 ant-table-placeholder元素
+				const scrollContainer =
+					tableContainer?.querySelector('.ant-table-tbody-virtual') ||
+					tableContainer?.querySelector('.ant-table-placeholder')
+				const rect = scrollContainer!.getBoundingClientRect()!
+
+				const tablePb = Number.parseInt(window.getComputedStyle(tableContainer!).paddingBottom)
+
+				const tablePagePb = Number.parseInt(
+					window.getComputedStyle(document.getElementById('table-page')!.parentElement!)
+						.paddingBottom
+				)
+
+				setTableY(window.innerHeight - rect.top - tablePb - tablePagePb)
+			}, 10)
 		}
-	}, [location])
+	}, [location, collapsed])
 
 	return tableY
-}
-
-function getElementOffsetTopToWindow(el: HTMLElement | null) {
-	let top = 0
-
-	while (el != null) {
-		top += el.offsetTop
-		el = el.parentElement
-	}
-
-	return top
 }

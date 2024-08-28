@@ -26,7 +26,7 @@ export default function FormRangeInput(props: FormRangeInputProps) {
 
 type InputType = string | number | undefined
 type RangeInputValues = [InputType, InputType]
-export interface RangeInputProps {
+interface RangeInputProps {
 	value?: RangeInputValues
 	onChange?: (v: RangeInputValues) => void
 	onFocus?: () => void

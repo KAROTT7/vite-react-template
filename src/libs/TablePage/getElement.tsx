@@ -17,23 +17,29 @@ import type { TableContextValue } from './context'
 
 export function getOptions(options: SelectEmuns, isMultiple: boolean, selectAllText: string) {
 	const results: OptionItem[] = []
+
+	/** 过滤掉空数据 */
 	if (Array.isArray(options)) {
 		if (options.every((o) => typeof o === 'string')) {
 			options.forEach((o) => {
-				results.push({
-					label: o,
-					value: o
-				})
+				if (o) {
+					results.push({
+						label: o,
+						value: o
+					})
+				}
 			})
 		} else {
-			results.push(...options)
+			results.push(...options.filter(Boolean))
 		}
 	} else {
 		Object.keys(options).forEach((key) => {
-			results.push({
-				label: options[key]!,
-				value: key
-			})
+			if (key) {
+				results.push({
+					label: options[key]!,
+					value: key
+				})
+			}
 		})
 	}
 
