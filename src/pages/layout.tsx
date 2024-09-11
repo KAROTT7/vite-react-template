@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '@/contexts/store'
 import { Layout } from '@/components'
 import { HomeOutlined } from '@ant-design/icons'
+import { getToken, removeToken } from '@/utils/web'
 export { default as ErrorBoundary } from '@/components/ErrorBoundary'
+import { PoweroffOutlined } from '@ant-design/icons'
 
-export function Component() {
+function BasicLayout(props: React.PropsWithChildren) {
+	const { children } = props
+
+	const navigate = useNavigate()
 	const location = useLocation()
 	const { user } = useStore()
 
@@ -17,8 +22,25 @@ export function Component() {
 		<Layout
 			header={{
 				className: 'bg-white',
-				administrator: user?.name || 'admin',
-				logo: '/vite.svg'
+				logo: '/vite.svg',
+				administrator: {
+					name: user?.name || 'admin',
+					menu: {
+						onClick(info) {
+							if (info.key === 'logout') {
+								removeToken()
+								navigate('/login', { replace: true })
+							}
+						},
+						items: [
+							{
+								label: '退出登录',
+								key: 'logout',
+								icon: <PoweroffOutlined />
+							}
+						]
+					}
+				}
 			}}
 			menus={[
 				{
@@ -35,9 +57,24 @@ export function Component() {
 			asideProps={{ className: 'bg-white' }}
 		>
 			{/* {user?.name} */}
-			<div className="p-3">
-				<Outlet />
-			</div>
+			<div className="p-3">{children}</div>
 		</Layout>
 	)
+}
+
+export function Component() {
+	const { pathname } = useLocation()
+	const token = getToken()
+
+	const node = <Outlet />
+
+	if (pathname === '/login') {
+		return node
+	}
+
+	if (!token) {
+		return <Navigate to="/login" replace />
+	}
+
+	return <BasicLayout>{node}</BasicLayout>
 }
