@@ -129,7 +129,10 @@ export function Component() {
 			summary={{
 				left: (
 					<Space>
-						<Button size="small" type="primary">
+						<Button
+							size="small"
+							type="primary"
+						>
 							Export
 						</Button>
 					</Space>
@@ -138,7 +141,7 @@ export function Component() {
 			}}
 			tableData={tableData}
 			columns={columns}
-			onChange={(payload) => {
+			onChange={payload => {
 				setTableData(getData(payload))
 			}}
 		/>

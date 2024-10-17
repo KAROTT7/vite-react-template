@@ -15,11 +15,18 @@ export default function FormRangeInput(props: FormRangeInputProps) {
 	return (
 		<div className="relative">
 			{label && (
-				<FormLabel focus={focus} required={required}>
+				<FormLabel
+					focus={focus}
+					required={required}
+				>
 					{label}
 				</FormLabel>
 			)}
-			<RangeInput {...rest} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
+			<RangeInput
+				{...rest}
+				onFocus={() => setFocus(true)}
+				onBlur={() => setFocus(false)}
+			/>
 		</div>
 	)
 }
@@ -38,7 +45,7 @@ function RangeInput(props: RangeInputProps) {
 	const [values, setValues] = useState<RangeInputValues>()
 
 	useEffect(() => {
-		setValues((s) => {
+		setValues(s => {
 			if (s === value) {
 				return s
 			}
@@ -85,7 +92,11 @@ function RangeInput(props: RangeInputProps) {
 				onFocus={onFocus}
 				onBlur={onBlur}
 			/>
-			<Input className="!bg-white w-12 border-l-0 pointer-events-none" placeholder="~" disabled />
+			<Input
+				className="!bg-white w-12 border-l-0 pointer-events-none"
+				placeholder="~"
+				disabled
+			/>
 			<Input
 				className={classNames(inputClass, 'border-l-transparent')}
 				placeholder="Maximum"

@@ -154,13 +154,9 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 		defaultValues
 	} = useMemo(() => normalizeElements(searchs, globalConfig), [searchs, globalConfig])
 
-	useImperativeHandle(
-		ref,
-		() => {
-			return { formToQueryObject, formWrapper: wrapperRef.current }
-		},
-		[formToQueryObject]
-	)
+	useImperativeHandle(ref, () => {
+		return { formToQueryObject, formWrapper: wrapperRef.current }
+	}, [formToQueryObject])
 
 	const initialValues = getInitialValues(
 		searchParams,
@@ -173,7 +169,7 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 
 	const finalItems = useMemo(() => {
 		return normalizedItems
-			.map((item) => getElement(item, changedValues, globalConfig))
+			.map(item => getElement(item, changedValues, globalConfig))
 			.filter(Boolean) as SearchWithElement[]
 	}, [normalizedItems, changedValues, globalConfig])
 
@@ -194,12 +190,12 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 		const el = wrapperRef.current
 		let resizeObserver: ResizeObserver
 		if (el) {
-			resizeObserver = new ResizeObserver((entries) => {
+			resizeObserver = new ResizeObserver(entries => {
 				for (const entry of entries) {
 					if (entry.target === el) {
 						const { width } = entry.contentRect
 
-						setSpan((prevSpan) => {
+						setSpan(prevSpan => {
 							let nextSpan = prevSpan
 
 							if (width < 600) {
@@ -241,12 +237,15 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 	}
 
 	return (
-		<div ref={wrapperRef} className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}>
+		<div
+			ref={wrapperRef}
+			className={cl('bg-white p-4 rounded mb-3 shadow-sm', className)}
+		>
 			<Form
 				{...formConfig}
 				{...formProps}
 				form={form}
-				onFinish={(values) => {
+				onFinish={values => {
 					if (globalConfig.collapsedAfterSearch) {
 						setCollapsed(true)
 					}
@@ -262,9 +261,12 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 				}}
 			>
 				<Row gutter={globalConfig.rowGutter}>
-					{finalItems.slice(0, itemLength).map((o) => {
+					{finalItems.slice(0, itemLength).map(o => {
 						return (
-							<Col key={o.name} span={span}>
+							<Col
+								key={o.name}
+								span={span}
+							>
 								<Form.Item
 									name={o.name}
 									className="mb-0"
@@ -279,7 +281,10 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 						<Col span={span}>
 							<Form.Item className="mb-0">
 								<Button.Group>
-									<Button type="primary" htmlType="submit">
+									<Button
+										type="primary"
+										htmlType="submit"
+									>
 										{globalConfig.searchText}
 									</Button>
 									<Button
@@ -292,7 +297,10 @@ const SearchForm = forwardRef<any, SearchFormProps<any>>((props, ref) => {
 									</Button>
 								</Button.Group>
 								{finalItems.length >= maxItemsPerLine && enableFormCollapse ? (
-									<Button type="link" onClick={() => setCollapsed((s) => !s)}>
+									<Button
+										type="link"
+										onClick={() => setCollapsed(s => !s)}
+									>
 										{collapsed ? globalConfig.expandText : globalConfig.closeText}
 										{collapsed ? <DownOutlined /> : <UpOutlined />}
 									</Button>
@@ -323,7 +331,7 @@ function getInitialValues(
 			if (queryItem) {
 				const { type, index, key: originKey } = queryItem
 				if (type === 'rangePicker' || type === 'rangeInput') {
-					(result[originKey] ||= [])[index] = query[key]
+					;(result[originKey] ||= [])[index] = query[key]
 				}
 			} else {
 				result[key] = query[key]

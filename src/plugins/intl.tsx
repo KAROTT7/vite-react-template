@@ -1,7 +1,5 @@
 import { useStore } from '@/contexts/store'
-import {
-	createContext, useCallback, useContext 
-} from 'react'
+import { createContext, useCallback, useContext } from 'react'
 import locales from '@/locales'
 
 interface FormatMessageFunctionOption {
@@ -30,9 +28,7 @@ if (import.meta.env.DEV) {
 export function LocaleProvider(
 	props: React.PropsWithChildren<Partial<Omit<ContextProps, 'formatMessage'>>>
 ) {
-	const {
-		children, messages, locale 
-	} = props
+	const { children, messages, locale } = props
 	const lang = locale || useStore().lang
 	const map = messages || locales
 
@@ -44,7 +40,7 @@ export function LocaleProvider(
 			let result = message[id] || id
 
 			if (Array.isArray(rest)) {
-				rest.forEach((value) => {
+				rest.forEach(value => {
 					result = result.replace(/{}/, value)
 				})
 			}

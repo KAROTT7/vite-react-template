@@ -20,8 +20,8 @@ export function getOptions(options: SelectEmuns, isMultiple: boolean, selectAllT
 
 	/** 过滤掉空数据 */
 	if (Array.isArray(options)) {
-		if (options.every((o) => typeof o === 'string')) {
-			options.forEach((o) => {
+		if (options.every(o => typeof o === 'string')) {
+			options.forEach(o => {
 				if (o) {
 					results.push({
 						label: o,
@@ -33,7 +33,7 @@ export function getOptions(options: SelectEmuns, isMultiple: boolean, selectAllT
 			results.push(...options.filter(Boolean))
 		}
 	} else {
-		Object.keys(options).forEach((key) => {
+		Object.keys(options).forEach(key => {
 			if (key) {
 				results.push({
 					label: options[key]!,
@@ -139,7 +139,7 @@ export function normalizeElements(items: NormalizedItem[], formConfig: TableCont
 	const defaultValues: Record<string, any> = {}
 	const { utc } = formConfig
 
-	items.forEach((item) => {
+	items.forEach(item => {
 		const { type, name } = item
 
 		defaultValues[name] = undefined
@@ -178,11 +178,11 @@ export function normalizeElements(items: NormalizedItem[], formConfig: TableCont
 			if (isMultiple) {
 				queryToFormObject[name!] = {
 					type,
-					handler: (s) => (s ? s.split(',') : undefined)
+					handler: s => (s ? s.split(',') : undefined)
 				}
 				formToQueryObject[name!] = {
 					type,
-					handler: (s) => s.join(',')
+					handler: s => s.join(',')
 				}
 			} else {
 				defaultValues[item.name!] = ''
@@ -190,11 +190,11 @@ export function normalizeElements(items: NormalizedItem[], formConfig: TableCont
 		} else if (type === 'datePicker') {
 			queryToFormObject[name!] = {
 				type,
-				handler: (date) => dayjs(date)
+				handler: date => dayjs(date)
 			}
 			formToQueryObject[name!] = {
 				type,
-				handler: (date) => date.format('YYYY-MM-DD')
+				handler: date => date.format('YYYY-MM-DD')
 			}
 		} else if (type === 'rangeInput') {
 			const postArgs = getPostArgs(item, name!)
@@ -214,7 +214,7 @@ export function normalizeElements(items: NormalizedItem[], formConfig: TableCont
 
 			formToQueryObject[name!] = {
 				type,
-				handler: (values) => {
+				handler: values => {
 					return {
 						[postArgs[0]]: values[0],
 						[postArgs[1]]: values[1]
@@ -286,12 +286,29 @@ export function getElement(
 		)
 	} else if (type === 'datePicker') {
 		element = (
-			<FormDatePicker allowClear placeholder="Select Date" {...elementProps} label={label} />
+			<FormDatePicker
+				allowClear
+				placeholder="Select Date"
+				{...elementProps}
+				label={label}
+			/>
 		)
 	} else if (type === 'textarea') {
-		element = <FormInputTextarea allowClear {...elementProps} label={label} />
+		element = (
+			<FormInputTextarea
+				allowClear
+				{...elementProps}
+				label={label}
+			/>
+		)
 	} else if (type === 'input') {
-		element = <FormInput allowClear {...elementProps} label={label} />
+		element = (
+			<FormInput
+				allowClear
+				{...elementProps}
+				label={label}
+			/>
+		)
 	} else if (type === 'rangeInput') {
 		element = <FormRangeInput label={label!} />
 	} else if (type === 'custom') {
