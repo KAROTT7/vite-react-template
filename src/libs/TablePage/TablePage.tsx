@@ -12,7 +12,7 @@ export interface TableColumn<T = any> extends ColumnType<T> {
 }
 
 function filter(values: Record<string, any>) {
-	Object.keys(values).forEach((key) => {
+	Object.keys(values).forEach(key => {
 		const value = values[key]
 		if (value == '' || value == null) {
 			delete values[key]
@@ -27,7 +27,10 @@ function parseSummary(slot?: any): React.ReactElement {
 
 	if (slot.left != null || slot.right != null) {
 		return (
-			<Row justify="space-between" className="mb-3">
+			<Row
+				justify="space-between"
+				className="mb-3"
+			>
 				<Col>{slot.left}</Col>
 				<Col>{slot.right}</Col>
 			</Row>
@@ -168,7 +171,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 		const formItems: NormalizedItem[] = []
 		let totalWidth = 0
 
-		columns.forEach((column) => {
+		columns.forEach(column => {
 			const { search, ...rest } = column
 			const hasColumn = rest.dataIndex != null || rest.title != null
 			if (hasColumn) {
@@ -220,7 +223,10 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 	const tableY = useScrollY(infiniteScroll, collapsed)
 
 	return (
-		<div className={cl(className)} id="table-page">
+		<div
+			className={cl(className)}
+			id="table-page"
+		>
 			{formItems.length ? (
 				<SearchForm
 					ref={searchRef}
@@ -234,14 +240,14 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 
 						const { formToQueryObject } = searchRef.current!
 
-						Object.keys(next).forEach((key) => {
+						Object.keys(next).forEach(key => {
 							const item = formToQueryObject[key]
 							if (item) {
 								const result = item.handler(next[key] as any)
 								if (typeof result === 'object') {
 									delete next[key]
 
-									Object.keys(result).forEach((k) => {
+									Object.keys(result).forEach(k => {
 										next[k] = result[k]
 									})
 								} else {
@@ -289,7 +295,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 					dataSource={data.list}
 					columns={tableColumns}
 					virtual={infiniteScroll}
-					onScroll={(e) => {
+					onScroll={e => {
 						if (infiniteScroll) {
 							const el = e.target as HTMLElement
 							const restCount = data.total % data.pageSize
@@ -315,7 +321,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 						actionRef.current = action
 						if (action === 'paginate') {
 							setSearchParams(
-								(s) => {
+								s => {
 									const query = copyFromSearchParams(s)
 									return {
 										...query,
@@ -335,7 +341,7 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 							})
 
 							setSearchParams(
-								(s) => {
+								s => {
 									const query = copyFromSearchParams(s, ['_sortOrder', '_sortName'])
 									return {
 										...query,
@@ -356,14 +362,14 @@ export default function TablePage<T = any>(props: React.PropsWithChildren<TableP
 									rootClassName: '!mb-0',
 									showQuickJumper: true,
 									size: 'default',
-									showTotal: (t) => `总计 ${t} 条`,
+									showTotal: t => `总计 ${t} 条`,
 									hideOnSinglePage: true,
 									position: ['bottomCenter'],
 									...(tableConfig?.pagination || {}),
 									current: data.current,
 									pageSize: data.pageSize,
 									total: data.total
-							  }
+								}
 					}
 				/>
 			</div>

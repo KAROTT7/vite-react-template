@@ -17,7 +17,10 @@ export default function FormRangePicker(props: FormRangePickerProps & RangePicke
 	return (
 		<div className="relative">
 			{label && (
-				<FormLabel focus={focus} required={required}>
+				<FormLabel
+					focus={focus}
+					required={required}
+				>
 					{label}
 				</FormLabel>
 			)}

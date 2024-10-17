@@ -1,9 +1,5 @@
-import {
-	createContext, useContext, useState 
-} from 'react'
-import {
-	produce, WritableDraft 
-} from 'immer'
+import { createContext, useContext, useState } from 'react'
+import { produce, WritableDraft } from 'immer'
 
 interface User {
 	name: string
@@ -32,8 +28,8 @@ export function StoreConfig(props: React.PropsWithChildren) {
 			value={{
 				...state,
 				update(fn) {
-					setState((s) => {
-						const next = produce(s, (draft) => {
+					setState(s => {
+						const next = produce(s, draft => {
 							fn(draft)
 						})
 

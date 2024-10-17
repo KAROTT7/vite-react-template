@@ -1,6 +1,4 @@
-import {
-	RouterProvider, createBrowserRouter 
-} from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import routes from 'route-views'
 import { StoreConfig } from '@/contexts/store'
 

@@ -1,12 +1,7 @@
-import {
-	useEffect, useState 
-} from 'react'
-import {
-	useLocation, useNavigate 
-} from 'react-router-dom'
-import { Menu } from 'antd'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Menu, type MenuProps } from 'antd'
 import cl from 'classnames'
-import type { MenuProps } from 'antd'
 
 export type MenuItem = Required<MenuProps>['items'][number]
 
@@ -19,9 +14,7 @@ interface AsideProps {
 	beforeNavigate?: (path: string) => string
 }
 export default function Aside(props: AsideProps) {
-	const {
-		className, width, collapsed, toggleCollaspsed, menus, beforeNavigate 
-	} = props
+	const { className, width, collapsed, toggleCollaspsed, menus, beforeNavigate } = props
 
 	const n = useNavigate()
 	const { pathname } = useLocation()
@@ -65,7 +58,7 @@ export default function Aside(props: AsideProps) {
 					viewBox="0 0 12 12"
 					aria-hidden="true"
 				>
-					<path d="M6.432 7.967a.448.448 0 01-.318.133h-.228a.46.46 0 01-.318-.133L2.488 4.85a.305.305 0 010-.43l.427-.43a.293.293 0 01.42 0L6 6.687l2.665-2.699a.299.299 0 01.426 0l.42.431a.305.305 0 010 .43L6.432 7.967z"></path>
+					<path d="M6.432 7.967a.448.448 0 01-.318.133h-.228a.46.46 0 01-.318-.133L2.488 4.85a.305.305 0 010-.43l.427-.43a.293.293 0 01.42 0L6 6.687l2.665-2.699a.299.299 0 01.426 0l.42.431a.305.305 0 010 .43L6.432 7.967z" />
 				</svg>
 			</div>
 
@@ -78,16 +71,14 @@ export default function Aside(props: AsideProps) {
 				mode="inline"
 				className="h-full w-full overflow-y-scroll overflow-x-hidden select-none pt-2 px-2"
 				// inlineIndent={0}
-				onClick={(info) => {
-					const {
-						key, keyPath 
-					} = info
+				onClick={info => {
+					const { key, keyPath } = info
 
 					n(beforeNavigate?.(key) ?? key)
 					setSelectedKeys([key])
 					setOpenKeys(keyPath.slice(1))
 				}}
-				onOpenChange={(nextOpenKeys) => {
+				onOpenChange={nextOpenKeys => {
 					setOpenKeys(nextOpenKeys)
 				}}
 			/>

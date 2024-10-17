@@ -1,10 +1,6 @@
-import {
-	useEffect, useMemo, useState, isValidElement 
-} from 'react'
-import Aside from './Aside'
-import { MenuItem } from './Aside'
-import Header from './Header'
-import type { HeaderProps } from './Header'
+import { useEffect, useMemo, useState, isValidElement } from 'react'
+import Aside, { type MenuItem } from './Aside'
+import Header, { type HeaderProps } from './Header'
 import './layout.css'
 
 const ASIDE_COLLAPSED = 'ASIDE_COLLAPSED'
@@ -20,9 +16,7 @@ export interface LayoutProps {
 	onAfterCollapsed?(collapsed: boolean): void
 }
 export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
-	const {
-		header, children, menus, asideProps = {}, onAfterCollapsed 
-	} = props
+	const { header, children, menus, asideProps = {}, onAfterCollapsed } = props
 
 	const [config, setConfig] = useState(() => {
 		return { collapsed: !!localStorage.getItem(ASIDE_COLLAPSED) }
@@ -51,7 +45,10 @@ export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
 	const left = config.collapsed ? 72 : 240
 
 	return (
-		<div className="h-screen grid" style={{ gridTemplateRows: `auto 1fr` }}>
+		<div
+			className="h-screen grid"
+			style={{ gridTemplateRows: 'auto 1fr' }}
+		>
 			<div>{headerNode}</div>
 
 			<div className="relative overflow-x-hidden">
@@ -60,7 +57,7 @@ export default function Layout(props: React.PropsWithChildren<LayoutProps>) {
 					{...asideProps}
 					collapsed={config.collapsed}
 					toggleCollaspsed={() => {
-						setConfig((s) => ({
+						setConfig(s => ({
 							...s,
 							collapsed: !s.collapsed
 						}))

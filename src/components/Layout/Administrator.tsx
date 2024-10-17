@@ -1,5 +1,4 @@
-import { Dropdown } from 'antd'
-import type { DropdownProps } from 'antd'
+import { Dropdown, type DropdownProps } from 'antd'
 
 export interface AdministratorProps extends DropdownProps {
 	name: string

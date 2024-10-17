@@ -15,11 +15,18 @@ export default function FormInput(props: FormInputProps) {
 	return (
 		<div className="relative">
 			{label && (
-				<FormLabel focus={focus} required={required}>
+				<FormLabel
+					focus={focus}
+					required={required}
+				>
 					{label}
 				</FormLabel>
 			)}
-			<Input {...rest} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} />
+			<Input
+				{...rest}
+				onFocus={() => setFocus(true)}
+				onBlur={() => setFocus(false)}
+			/>
 		</div>
 	)
 }
