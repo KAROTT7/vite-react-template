@@ -2,10 +2,9 @@ import { useEffect } from 'react'
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '@/contexts/store'
 import { Layout } from '@/components'
-import { HomeOutlined } from '@ant-design/icons'
+import { HomeOutlined, PoweroffOutlined } from '@ant-design/icons'
 import { getToken, removeToken } from '@/utils/web'
 export { default as ErrorBoundary } from '@/components/ErrorBoundary'
-import { PoweroffOutlined } from '@ant-design/icons'
 
 function BasicLayout(props: React.PropsWithChildren) {
 	const { children } = props
@@ -56,8 +55,7 @@ function BasicLayout(props: React.PropsWithChildren) {
 			]}
 			asideProps={{ className: 'bg-white' }}
 		>
-			{/* {user?.name} */}
-			<div className="p-3">{children}</div>
+			<div className="p-5">{children}</div>
 		</Layout>
 	)
 }
@@ -73,7 +71,12 @@ export function Component() {
 	}
 
 	if (!token) {
-		return <Navigate to="/login" replace />
+		return (
+			<Navigate
+				to="/login"
+				replace
+			/>
+		)
 	}
 
 	return <BasicLayout>{node}</BasicLayout>

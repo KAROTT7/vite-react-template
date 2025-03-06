@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Menu, type MenuProps } from 'antd'
+import { type MenuProps } from 'antd'
 import cl from 'classnames'
+import { type SiderMode } from '.'
+import KtMenu from './Menu'
 
 export type MenuItem = Required<MenuProps>['items'][number]
 
@@ -9,12 +11,12 @@ interface AsideProps {
 	className?: string
 	width: number
 	menus: MenuItem[]
-	collapsed: boolean
-	toggleCollaspsed: () => void
+	mode: SiderMode
+	onModeChange: (nextMode: SiderMode) => void
 	beforeNavigate?: (path: string) => string
 }
 export default function Aside(props: AsideProps) {
-	const { className, width, collapsed, toggleCollaspsed, menus, beforeNavigate } = props
+	const { className, width, mode, onModeChange, menus, beforeNavigate } = props
 
 	const n = useNavigate()
 	const { pathname } = useLocation()
@@ -40,20 +42,32 @@ export default function Aside(props: AsideProps) {
 
 	return (
 		<div
-			className={cl('aside absolute left-0 top-0 transition-all h-full', className)}
+			className={cl(
+				'aside absolute left-0 top-0 transition-all h-full border-r bg-white z-10',
+				className
+			)}
 			style={{ width }}
 		>
 			<div
-				className="group absolute -right-3 top-4 w-6 h-6 all-center bg-white rounded-full z-50 cursor-pointer"
+				className="group absolute -right-3 top-2 w-6 h-6 all-center bg-white rounded-full z-50 cursor-pointer hover:border"
 				style={{
 					boxShadow:
 						'0 2px 8px -2px rgba(0,0,0,0.05),0 1px 4px -1px rgba(25,15,15,0.07),0 0 1px 0 rgba(0,0,0,0.08)'
 				}}
-				onClick={toggleCollaspsed}
+				// onMouseEnter={() => {
+				// 	onModeChange('expanded')
+				// }}
+				onClick={() => {
+					if (mode === 'collapsed' || mode === 'expanded') {
+						onModeChange('default')
+					} else if (mode === 'default') {
+						onModeChange('collapsed')
+					}
+				}}
 			>
 				<svg
 					className={`w-4 fill-[#00000040] group-hover:fill-black ${
-						collapsed ? '-rotate-90' : 'rotate-90'
+						mode === 'default' ? 'rotate-90' : '-rotate-90'
 					}`}
 					viewBox="0 0 12 12"
 					aria-hidden="true"
@@ -62,7 +76,21 @@ export default function Aside(props: AsideProps) {
 				</svg>
 			</div>
 
-			<Menu
+			<KtMenu
+				collapsed={mode === 'collapsed'}
+				onMouseEnter={() => {
+					if (mode === 'collapsed') {
+						onModeChange('expanded')
+					}
+				}}
+				onMouseLeave={() => {
+					if (mode === 'expanded') {
+						onModeChange('collapsed')
+					}
+				}}
+			/>
+
+			{/* <Menu
 				items={menus}
 				inlineCollapsed={collapsed}
 				selectedKeys={selectedKeys}
@@ -81,7 +109,7 @@ export default function Aside(props: AsideProps) {
 				onOpenChange={nextOpenKeys => {
 					setOpenKeys(nextOpenKeys)
 				}}
-			/>
+			/> */}
 		</div>
 	)
 }
